@@ -1,33 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import Header from "./Header";
-import Content from "./Content";
-import Total from "./Total";
+// import Results from "./Results";
+import Button from "./Button";
+import Statistic from "./Statistic";
 
 const App = () => {
-  const course = {
-    name: "Half Stack application development",
-    parts: [
-      {
-        name: "Fundamentals of React",
-        exercises: 10
-      },
-      {
-        name: "Using props to pass data",
-        exercises: 7
-      },
-      {
-        name: "State of a component",
-        exercises: 14
-      }
-    ]
+  // save clicks of each button to own state
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+  const all = good + neutral + bad;
+  const average = all / 3;
+  const positive = (good / all) * 100;
+
+  const handleGood = () => {
+    setGood(good + 1);
+  };
+  const handleBad = () => {
+    setBad(bad + 1);
+  };
+  const handleNeutral = () => {
+    setNeutral(neutral + 1);
   };
   return (
     <div>
-      <Header course={course.name} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
+      <h1>give feedback</h1>
+      <div>
+        <Button text="good" onClick={handleGood} />
+        <Button text="bad" onClick={handleBad} />
+        <Button text="neutral" onClick={handleNeutral} />
+      </div>
+      <div>
+        <h1>Statistics</h1>
+        {all === 0 ? (
+          <div>No feedback given </div>
+        ) : (
+          <>
+            <Statistic text="good" value={good} />
+            <Statistic text="bad" value={bad} />
+            <Statistic text="neutral" value={neutral} />
+            <Statistic text="all" value={all} />
+            <Statistic text="average" value={average} />
+            <Statistic text="positive" value={`${positive}%`} />
+          </>
+        )}
+
+        {/* <Results good={good} bad={bad} neutral={neutral} /> */}
+      </div>
     </div>
   );
 };
+
 ReactDOM.render(<App />, document.getElementById("root"));
