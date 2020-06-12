@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import anecdotes from "./Content";
 import TopVotes from "./TopVotes";
-import _ from "lodash";
 
 const App = () => {
   const [selected, setSelected] = useState(0);
   const [vote, setVote] = useState(0);
-  const [anec, setAnec] = useState(anecdotes);
-
-  useEffect(() => {
-    setAnec(anecdotes);
-    return () => {};
-  }, [selected]);
 
   const handleClick = () => {
     setSelected(Math.floor(Math.random() * 6));
@@ -33,7 +26,6 @@ const App = () => {
       <button onClick={handleVote}>vote</button>
       <button onClick={handleClick}>next anecdote</button>
       <TopVotes anecdotes={anecdotes} votes={vote} />
-      {console.log(anecdotes.map(anecdote => Math.max(...anecdote.votes)))}
     </div>
   );
 };

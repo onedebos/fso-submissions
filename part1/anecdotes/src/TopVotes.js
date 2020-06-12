@@ -5,8 +5,9 @@ function TopVotes({ anecdotes, votes }) {
   return (
     <div>
       <h1>Anecdote with most votes</h1>
-      {_.max(anecdotes, "votes").anecdote}{" "}
-      <strong>has {_.max(anecdotes, "votes").votes} votes</strong>
+
+      {_.maxBy(anecdotes, "votes").anecdote}
+      <strong>has {_.maxBy(anecdotes, "votes").votes} votes</strong>
     </div>
   );
 }
