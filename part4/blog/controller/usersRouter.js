@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken');
 
 usersRouter.get('/', async (request, response) => {
   try {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    console.log(decodedToken);
+    // const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    // console.log(decodedToken);
     const users = await User.find({}).populate('blogs');
     response.json(users.map((user) => user));
   } catch (error) {}

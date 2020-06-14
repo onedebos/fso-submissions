@@ -34,6 +34,7 @@ blogRouter.get('/:id', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
   const { title, author, url, likes } = request.body;
 
+  console.log(title, author, url, request.token);
   if (request.token === undefined || request.token === null) {
     return response.status(401).json({ error: 'token missing or invalid' });
   }

@@ -5,8 +5,8 @@ app.use(express.json());
 const config = require('./utils/config');
 app.use(cors());
 
-// app.listen(config.PORT, () => {
-//   console.log(`server started on port ${config.PORT}`);
-// });
+app.listen(config.PORT, () => {
+  console.log(`server started on port ${config.PORT}`);
+});
 
 module.exports = app;

@@ -1,4 +1,4 @@
-require('dotenv/config');
+// require('dotenv/config');
 
 let DB_LINK = process.env.DB_LINK;
 const PORT = process.env.PORT || 3002;
