@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+import blogService from "../services/blogs";
 
-const Form = ({
-  title,
-  author,
-  url,
-  handleBlogCreation,
-  handleTitle,
-  handleAuthor,
-  handleUrl
-}) => {
+const Form = ({ user }) => {
+  const [title, setTitle] = useState();
+  const [author, setAuthor] = useState();
+  const [url, setUrl] = useState();
+  const [notification, setNotification] = useState("");
+
+  const handleBlogCreation = async e => {
+    setNotification(``);
+    e.preventDefault();
+    try {
+      await blogService.createBlog(user.token, { title, author, url });
+      setNotification(`a new blog ${title} added.`);
+    } catch (error) {
+      setNotification(`blog was not created`);
+      console.log(error);
+    }
+  };
+
   return (
     <form onSubmit={handleBlogCreation}>
       <input
@@ -16,7 +26,7 @@ const Form = ({
         name="title"
         value={title}
         placeholder="enter a title"
-        onChange={handleTitle}
+        onChange={({ target }) => setTitle(target.value)}
       />
 
       <div>
@@ -25,7 +35,7 @@ const Form = ({
           name="title"
           value={author}
           placeholder="enter a author"
-          onChange={handleAuthor}
+          onChange={({ target }) => setAuthor(target.value)}
         />
       </div>
       <div>
@@ -34,10 +44,12 @@ const Form = ({
           name="url"
           value={url}
           placeholder="enter a url"
-          onChange={handleUrl}
+          onChange={({ target }) => setUrl(target.value)}
         />
       </div>
       <button type="submit">create</button>
+
+      <div>{notification}</div>
     </form>
   );
 };

@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Blog from "./components/Blog";
-import blogService from "./services/blogs";
 import Login from "./components/Login";
 import Form from "./components/Form";
 import axios from "axios";
+import Togglable from "./components/Togglable";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
   const [user, setUser] = useState();
-  const [blog, setBlog] = useState({
-    title: "",
-    url: "",
-    author: ""
-  });
+
   const [notification, setNotification] = useState();
 
   useEffect(() => {
@@ -28,16 +20,17 @@ const App = () => {
       setUser(userFromStorage);
       setIsLoggedIn(true);
     }
-    blogService.getAll().then(blogs => setBlogs(blogs));
   }, []);
 
-  const handleLogin = async () => {
+  const handleLogin = async e => {
+    e.preventDefault();
     setNotification(``);
     try {
       const response = await axios.post("http://localhost:3002/api/login", {
         username,
         password
       });
+
       localStorage.setItem("user", JSON.stringify(response.data));
       setIsLoggedIn(true);
       setUser(response.data);
@@ -54,27 +47,10 @@ const App = () => {
     localStorage.clear();
   };
 
-  const createBlog = async e => {
-    setNotification(``);
-    e.preventDefault();
-
-    setBlog(prevState => ({
-      ...prevState,
-      title,
-      author,
-      url
-    }));
-    try {
-      await blogService.createBlog(user.token, blog);
-      setNotification(`a new blog ${blog.title} added.`);
-    } catch (error) {
-      setNotification(`blog was not created`);
-      console.log(error);
-    }
-  };
   if (!isLoggedIn) {
     return (
       <div>
+        require('dotenv/config');
         <Login
           username={username}
           password={password}
@@ -104,32 +80,16 @@ const App = () => {
             {" "}
             {user.username} is logged in
           </div>
-          {blogs.map(blog => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
+
+          <Blog user={user} />
         </>
       ) : (
         <> </>
       )}
 
-      <Form
-        title={title}
-        author={author}
-        url={url}
-        handleTitle={({ target }) => {
-          setTitle(target.value);
-          setBlog(prevState => ({ ...prevState, title }));
-        }}
-        handleAuthor={({ target }) => {
-          setAuthor(target.value);
-          setBlog(prevState => ({ ...prevState, author }));
-        }}
-        handleUrl={({ target }) => {
-          setUrl(target.value);
-          setBlog(prevState => ({ ...prevState, url }));
-        }}
-        handleBlogCreation={createBlog}
-      />
+      <Togglable buttonLabel="create blog">
+        <Form user={user} />
+      </Togglable>
       <div>
         <button onClick={handleLogOut}>Logout</button>
       </div>

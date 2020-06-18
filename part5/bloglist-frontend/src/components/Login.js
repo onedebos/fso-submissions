@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
 const Login = ({
   username,
   password,
   handleUsername,
   handlePassword,
-  handleLogin
+  handleLogin,
 }) => {
   return (
     <div>
