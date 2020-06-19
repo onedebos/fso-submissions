@@ -5,11 +5,6 @@ import ToggleBlogView from './ToggleBlogView';
 const Blog = ({ user }) => {
   const [blogs, setBlogs] = useState([]);
 
-  useEffect(() => {
-    blogService.getAll().then(blogs => setBlogs(blogs));
-    // blogService.getAll().then((blogs) => setBlogs(blogs.blogs));
-  }, [blogs]);
-
   const increaseLikes = (id, blog) => {
     const { title, author, url, likes } = blog;
     const blogWithLikes = {
@@ -18,8 +13,15 @@ const Blog = ({ user }) => {
       url,
       likes: likes + 1,
     };
+
     blogService.increaseLikes(id, user.token, blogWithLikes);
   };
+
+  useEffect(() => {
+    blogService.getAll().then(blogs => setBlogs(blogs));
+
+    // blogService.getAll().then((blogs) => setBlogs(blogs.blogs));
+  }, [blogs]);
 
   const deleteBlog = async id => {
     await blogService.deleteBlog(id, user.token);
@@ -30,17 +32,19 @@ const Blog = ({ user }) => {
   return (
     <div>
       {sortedBlogs.map(blog => (
-        <div key={blog.id}>
-          <div>
-            <ToggleBlogView buttonLabel="view" title={blog.title}>
-              <div>
-                author:
-                {blog.author}
-                <br />
+        <div key={blog.id} id="sorted-blogs">
+          <div id={`${blog.userId.username}`}>
+            <ToggleBlogView
+              buttonLabel="view"
+              title={blog.title}
+              author={blog.author}
+            >
+              <div id={blog.id}>
                 likes:
-                {blog.likes}
+                <span className="like-count">{blog.likes}</span>
                 <button
                   type="button"
+                  id="increase-likes"
                   onClick={() => increaseLikes(blog.id, blog)}
                 >
                   like
@@ -50,6 +54,7 @@ const Blog = ({ user }) => {
                 {blog.url}
                 <br />
                 <button
+                  id="delete-blog"
                   type="button"
                   onClick={() => deleteBlog(blog.id, blog.title)}
                 >

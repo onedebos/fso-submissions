@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import blogService from "../services/blogs";
+import React, { useState } from 'react';
+import blogService from '../services/blogs';
 
 const Form = ({ user }) => {
   const [title, setTitle] = useState();
   const [author, setAuthor] = useState();
   const [url, setUrl] = useState();
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState('');
 
   const handleBlogCreation = async e => {
     setNotification(``);
@@ -24,6 +24,7 @@ const Form = ({ user }) => {
       <input
         type="text"
         name="title"
+        id="blog-title"
         value={title}
         placeholder="enter a title"
         onChange={({ target }) => setTitle(target.value)}
@@ -33,6 +34,7 @@ const Form = ({ user }) => {
         <input
           type="text"
           name="title"
+          id="blog-author"
           value={author}
           placeholder="enter a author"
           onChange={({ target }) => setAuthor(target.value)}
@@ -41,13 +43,16 @@ const Form = ({ user }) => {
       <div>
         <input
           type="text"
+          id="blog-url"
           name="url"
           value={url}
           placeholder="enter a url"
           onChange={({ target }) => setUrl(target.value)}
         />
       </div>
-      <button type="submit">create</button>
+      <button type="submit" id="create-blog">
+        create
+      </button>
 
       <div>{notification}</div>
     </form>

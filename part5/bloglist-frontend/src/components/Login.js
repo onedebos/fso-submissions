@@ -12,6 +12,7 @@ const Login = ({
       <label htmlFor="username">Username: </label>
       <input
         type="text"
+        id="username"
         value={username}
         placeholder="enter a username"
         onChange={handleUsername}
@@ -19,13 +20,16 @@ const Login = ({
       <div>
         <label htmlFor="password">password: </label>
         <input
+          id="password"
           type="password"
           value={password}
           placeholder="enter a password"
           onChange={handlePassword}
         />
       </div>
-      <button onClick={handleLogin}>Login</button>
+      <button type="submit" onClick={handleLogin} id="submit-btn">
+        Login
+      </button>
     </div>
   );
 };

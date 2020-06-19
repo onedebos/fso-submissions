@@ -2,7 +2,8 @@
   "env": {
     "browser": true,
     "es6": true,
-    "jest": true
+    "jest": true,
+    "cypress/globals": true
   },
   "parserOptions": {
     "ecmaFeatures": {
@@ -12,7 +13,7 @@
     "sourceType": "module"
   },
   "extends": ["airbnb", "plugin:react/recommended", "prettier"],
-  "plugins": ["react", "prettier"],
+  "plugins": ["react", "prettier", "jest", "cypress"],
   "rules": {
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "import/no-unresolved": "off",

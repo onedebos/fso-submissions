@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
-const ToggleBlogView = ({ title, children, buttonLabel }) => {
+const ToggleBlogView = ({ title, author, children, buttonLabel }) => {
   const [visible, setVisible] = useState(false);
 
   const showWhenVisible = { display: visible ? '' : 'none' };
@@ -10,20 +9,17 @@ const ToggleBlogView = ({ title, children, buttonLabel }) => {
 
   return (
     <div>
-      <div>
-        {title}
-        <button type="button" onClick={toggleVisibility}>
+      <div id="title-author">
+        {title} by {author}
+        <button type="button" onClick={toggleVisibility} id="view-more">
           {buttonLabel}
         </button>
       </div>
-      <div style={showWhenVisible}>{children}</div>
+      <div style={showWhenVisible} id="togglable-child">
+        {children}
+      </div>
     </div>
   );
 };
 
 export default ToggleBlogView;
-
-ToggleBlogView.propTypes = {
-  title: PropTypes.string.isRequired,
-  buttonLabel: PropTypes.string.isRequired,
-};
